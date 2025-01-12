@@ -1,7 +1,3 @@
-# Cpp-Exercices
-Workshop Cpp Lessons
-
-
 ## Instruction about WorkShop
 
 - Build a data type of your choice (class, struct), to represent one real-world set of entities (e.g. Students, Cars, Products, etc.). Think of appropriate attributes in each case (e.g. year of enrolment, name, etc.)
