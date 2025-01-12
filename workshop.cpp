@@ -36,7 +36,7 @@ public:
         
         cout << "\n---------------------------------" << endl;
         cout << title << endl;
-        cout << "-----------\n" << endl;
+        cout << "-------------\n" << endl;
         cout << "Brand: " << brand << endl;
         cout << "ID: " << ID << endl;
         cout << "State: " << state << endl;
@@ -48,40 +48,39 @@ public:
 vector<Car> Cars;
 
 
-void DisplayCars(vector<Car>& Car_list){
+void DisplayCars(vector<Car>& Car_list, int index=-1){
     string title;
-    for (int i = 0; i < Car_list.size(); i++){
-        title = "Car " + to_string(i+1) + " details";
-        Car_list[i].display(title);
+    if (index == -1){
+        for (int i = 0; i < Car_list.size(); i++){
+            title = "Car " + to_string(i+1) + " details";
+            Car_list[i].display(title);
+        }
+    } else {
+        title = "Car " + to_string(index) + " details";
+        Car_list[index].display(title);
     }
 }
 
-vector <Car> binarySearch(vector<Car>& myCars, int low, int high, int searchID) {
-
-    vector<Car> searchResults;
+int binarySearch(vector<Car>& Car_list, int low, int high, int searchID) {
 
     while (low <= high) {
         int mid = low + (high - low) / 2;
 
-        if (searchID == myCars[mid].ID){
-            searchResults.push_back(myCars[mid]);
-            return searchResults;
+        if (searchID == Car_list[mid].ID){
+            return mid;
         }
 
-        if (searchID > myCars[mid].ID){
+        if (searchID > Car_list[mid].ID){
             low = mid + 1;
         }
 
-        if (searchID < myCars[mid].ID){
+        if (searchID < Car_list[mid].ID){
             high = mid - 1;
         }
 
     }
 
-    Car emptyFlagCar;
-    emptyFlagCar.ID = -1;
-    searchResults.push_back(emptyFlagCar);
-    return searchResults;
+    return -1;
 
 }
 
@@ -128,15 +127,14 @@ void SearchByID() {
     cout << "Enter the ID to search for: " << flush;
     cin >> searchValue;
 
-    vector <Car> searchResults;
-    searchResults = binarySearch(Cars, 0, Cars.size() - 1, searchValue);
+    int CarIndex = binarySearch(Cars, 0, Cars.size() - 1, searchValue);
 
-    if (searchResults[0].ID == -1){
+    if (CarIndex == -1){
         cout << "\nCar not found" << endl;
         return;
     } else {
         cout << "\nCar found : \n" << endl;
-        DisplayCars(searchResults);
+        DisplayCars(Cars, CarIndex);
     }
 }
 
@@ -182,48 +180,78 @@ void Search(){
 void DeleteCar(){
 
     int searchValue;
-    cout << "Enter the ID of the car to delete: " << endl;
+    cout << "Enter the ID of the car to delete: " << flush;
     cin >> searchValue;
 
-    for (int i = 0; i < Cars.size(); i++) {
-        if (Cars[i].ID == searchValue) {
-            Cars.erase(Cars.begin() + i);
-            cout << "Car deleted successfully" << endl;
-            return;
-        }
-    }
+    int CarIndex = binarySearch(Cars, 0, Cars.size() - 1, searchValue);
 
-    cout << "Car not found" << endl;
+    if (CarIndex == -1){
+        cout << "\nCar not found" << endl;
+        return;
+    } else {
+        Cars.erase(Cars.begin() + CarIndex);
+        cout << "\nCar deleted successfully" << endl;
+    }
     
 }
 
 void EditCar(){
     int searchValue;
-    cout << "Enter the ID of the car to edit: " << endl;
+    cout << "Enter the ID of the car to edit: " << flush;
     cin >> searchValue;
 
-    for (int i = 0; i < Cars.size(); i++) {
-        if (Cars[i].ID == searchValue) {
-            cout << "Enter the new brand: " << endl;
-            cin >> Cars[i].brand;
-            cout << "Enter the new ID: " << endl;
-            cin >> Cars[i].ID;
-            cout << "Enter the new state: " << endl;
-            cin >> Cars[i].state;
-            cout << "Enter the new factory year: " << endl;
-            cin >> Cars[i].factoryYear;
-            cout << "Enter the new price: " << endl;
-            cin >> Cars[i].price;
-            cout << "Car edited successfully" << endl;
-            return;
-        }
-    }
+    int CarIndex = binarySearch(Cars, 0, Cars.size() - 1, searchValue);
 
-    cout << "Car not found" << endl;
-    
+    if (CarIndex == -1){
+        cout << "\nCar not found\n" << endl;
+        return;
+    } else {
+        
+        cout << "\nCar found !" << endl;
+        cout << "Select an property to change: \n" << endl;
+        cout << "1. Edit brand        : " << Cars[CarIndex].brand << endl;
+        cout << "2. Edit ID           : " << Cars[CarIndex].ID << endl;
+        cout << "3. Edit state        : " << Cars[CarIndex].state << endl;
+        cout << "4. Edit factory year : " << Cars[CarIndex].factoryYear << endl;
+        cout << "5. Edit price        : " << Cars[CarIndex].price << endl;
+        cout << "\nChoose an option   :" << flush;
+
+        int option;
+        cin >> option;
+
+        switch (option)
+        {
+        case 1:
+            cout << "Enter new brand: " << flush;
+            cin >> Cars[CarIndex].brand;
+            break;
+        case 2:
+            cout << "Enter new ID: " << flush;
+            cin >> Cars[CarIndex].ID;
+            break;
+        case 3:
+            cout << "Enter new state: " << flush;
+            cin >> Cars[CarIndex].state;
+            break;
+        case 4:
+            cout << "Enter new factory year: " << flush;
+            cin >> Cars[CarIndex].factoryYear;
+            break;
+        case 5:
+            cout << "Enter new price: " << flush;
+            cin >> Cars[CarIndex].price;
+            break;
+        default:
+            cout << "Invalid option" << endl;
+            break;
+        }
+
+        cout << "\nCar edited successfully:" << endl;
+        DisplayCars(Cars, CarIndex);
+    }
 }
 
-void merge(vector<Car>& myCars, int lowerB, int mid, int UpperB) {
+void merge(vector<Car>& Car_list, int lowerB, int mid, int UpperB) {
     int sizeLeft = mid - lowerB + 1;
     int sizeRight = UpperB - mid;
 
@@ -231,48 +259,48 @@ void merge(vector<Car>& myCars, int lowerB, int mid, int UpperB) {
     vector<Car> rightArray(sizeRight);
 
     for (int i = 0; i < sizeLeft; ++i) {
-        leftArray[i] = myCars[lowerB + i];
+        leftArray[i] = Car_list[lowerB + i];
     }
     for (int i = 0; i < sizeRight; ++i) {
-        rightArray[i] = myCars[mid + 1 + i];
+        rightArray[i] = Car_list[mid + 1 + i];
     }
 
     int i = 0, j = 0, k = lowerB;
 
     while ((i < sizeLeft) && (j < sizeRight)) {
         if (leftArray[i].ID <= rightArray[j].ID) {
-            myCars[k] = leftArray[i];
+            Car_list[k] = leftArray[i];
             ++i;
         } else {
-            myCars[k] = rightArray[j];
+            Car_list[k] = rightArray[j];
             ++j;
         }
         ++k;
     }
 
     while (i < sizeLeft) {
-        myCars[k] = leftArray[i];
+        Car_list[k] = leftArray[i];
         ++i;
         ++k;
     }
 
     while (j < sizeRight) {
-        myCars[k] = rightArray[j];
+        Car_list[k] = rightArray[j];
         ++j;
         ++k;
     }
 }
 
-void mergeSort(vector<Car>& myCars, int lowerB, int upperB){
+void mergeSort(vector<Car>& Car_list, int lowerB, int upperB){
 
     if (lowerB >= upperB){
         return;
     }
 
     int mid = lowerB + (upperB - lowerB) / 2;
-    mergeSort(myCars, lowerB, mid);
-    mergeSort(myCars, mid + 1, upperB);
-    merge(myCars, lowerB, mid, upperB);
+    mergeSort(Car_list, lowerB, mid);
+    mergeSort(Car_list, mid + 1, upperB);
+    merge(Car_list, lowerB, mid, upperB);
 }
 
 void AddCar(){
@@ -315,7 +343,6 @@ void PreloadCars(){
     mergeSort(Cars, 0, Cars.size() - 1);
 
 }
-
 
 int main() {
 

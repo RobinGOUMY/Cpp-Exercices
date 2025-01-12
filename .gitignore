@@ -4,3 +4,7 @@ workshop.exe
 .vscode/c_cpp_properties.json
 .vscode/launch.json
 .vscode/settings.json
+.DS_Store
+workshop
+workshop.dSYM/Contents/Info.plist
+workshop.dSYM/Contents/Resources/Relocations/aarch64/workshop.yml
