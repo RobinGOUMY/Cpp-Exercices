@@ -12,9 +12,7 @@ using namespace std;
 // Input: string& str - the string to be converted
 // Output: None (modifies the input string in place)
 void toLowerCase(string& str) {
-    transform(str.begin(), str.end(), str.begin(), [](unsigned char c) {
-        return tolower(c);
-    });
+    transform(str.begin(), str.end(), str.begin(),::tolower);
 }
 
 class Car {
