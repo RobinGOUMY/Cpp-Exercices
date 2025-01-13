@@ -8,3 +8,7 @@ workshop.exe
 workshop
 workshop.dSYM/Contents/Info.plist
 workshop.dSYM/Contents/Resources/Relocations/aarch64/workshop.yml
+*.yml
+*.plist
+/car_management.dSYM
+car_management
