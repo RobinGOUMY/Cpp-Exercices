@@ -44,15 +44,15 @@ It is able to detect if there is no path between the two nodes.
 
 using namespace std;
 
-#define CSV_LINES 28854312
+/*#define CSV_LINES 28854312
 #define NODE_MAX_VALUE 23947347
 #define BACKUP "USA-roads.bin"
-#define PATH "USA-roads.csv"
+#define PATH "USA-roads.csv"*/
 
-/* #define CSV_LINES 5
+#define CSV_LINES 5
 #define NODE_MAX_VALUE 91
 #define BACKUP "list.bin"
-#define PATH "list.csv" */
+#define PATH "list.csv"
 
 // Alias for a pair of integers
 using pii = pair<int, int>;
