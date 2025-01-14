@@ -1,7 +1,7 @@
 /*
 
 Author: 	Benoît de Keyn
-Date: 		2021-09-30
+Date: 		2025-14-01
 
 This program is a path finder using the Dijkstra algorithm.
 
@@ -44,10 +44,10 @@ It is able to detect if there is no path between the two nodes.
 
 using namespace std;
 
-/*#define CSV_LINES 28854312
+/* #define CSV_LINES 28854312
 #define NODE_MAX_VALUE 23947347
 #define BACKUP "USA-roads.bin"
-#define PATH "USA-roads.csv"*/
+#define PATH "USA-roads.csv" */
 
 #define CSV_LINES 5
 #define NODE_MAX_VALUE 91
@@ -106,8 +106,8 @@ void dijkstra(int start, int end, const vector<vector<pii>>& graph, vector<int>&
 
     while (!pq.empty()) {
 
-        recursion++;
-        cout << "\r" << recursion << flush;
+        /* recursion++;
+        cout << "\r" << recursion << flush; */
         
         auto [dist, node] = pq.top();
         pq.pop();
@@ -137,16 +137,17 @@ vector<int> reconstructPath(int start, int end, const vector<int>& prev) {
     return {}; // No path found
 }
 
-void savePathToCSV(const string& filename, const vector<int>& path, const vector<int>& distance, const string& time) {
+void savePathToCSV(const string& filename, const vector<int>& path, const vector<int>& distance, const u_long& time) {
     ofstream file(filename);
     if (!file.is_open()) {
         cerr << "Failed to open the file for writing." << endl;
         return;
     }
 
-    file << "Nodes to go from " << path[0] << " to " << path[path.size() - 1] 
-    << "\nShortest path : " << distance[path[path.size() - 1]] 
-    << "\nCalculation time : " << time << " ms\n\n";
+    file << "Nodes to go from " << formatWithSpaces(path[0]) << " to " << formatWithSpaces(path[path.size() - 1]) 
+    << "\nShortest path    : " << formatWithSpaces(distance[path[path.size() - 1]]) 
+    << "\nNumber of edges  : " << formatWithSpaces(path.size() - 1)
+    << "\nCalculation time : " << formatWithSpaces(time) << " ms\n\n";
 
     int previous_distance = 0;
     for (int node : path) {
@@ -298,22 +299,21 @@ int main() {
         auto end_time = chrono::high_resolution_clock::now();
 
         //Calculate the time
-        u_long time_num = chrono::duration_cast<chrono::milliseconds>(end_time - start_time).count();
-        string time = formatWithSpaces(time_num);
+        u_long time = chrono::duration_cast<chrono::milliseconds>(end_time - start_time).count();
 
         // Calculate the path
         path = reconstructPath(start, end, prev);
 
         if (path.empty()) {
-            cout << "No path found between node " << start << " and node " << end << "." << endl;
+            cout << "No path found between node " << formatWithSpaces(start) << " and node " << formatWithSpaces(end) << "." << endl;
         } else {
             // Save the path nodes to a CSV file
             savePathToCSV("shortest_path.csv", path, distance, time);
 
             // Output results
-            string totalDistance = formatWithSpaces(distance[end]);
-            cout << "\nTotal Distance: " << totalDistance << endl;
-            cout << "Calculation Time: " << chrono::duration_cast<chrono::milliseconds>(end_time - start_time).count() << " ms" << endl;
+            cout << "\nTotal Distance   : " << formatWithSpaces(distance[end])   << endl;
+            cout <<   "Number of edges  : " << formatWithSpaces(path.size() - 1) << endl;
+            cout <<   "Calculation Time : " << formatWithSpaces(time)   << " ms" << endl;
         }
     }
 
