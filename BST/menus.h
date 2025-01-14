@@ -1,55 +1,7 @@
-#include <iostream>
-#include <vector>
-#include <string>
-#include <fstream>
-#include <sstream>
-#include <algorithm>
-#include <cctype>
+#include "header.h"
+#ifndef MENUS_H 
+#define MENUS_H
 
-using namespace std;
-
-// Function to convert a string to lowercase
-// Input: string& str - the string to be converted
-// Output: None (modifies the input string in place)
-void toLowerCase(string& str) {
-    transform(str.begin(), str.end(), str.begin(),::tolower);
-}
-
-class Car {
-public:
-    string brand; // Car brand
-    int ID; // Car ID
-    string state; // Car state (e.g., new, used)
-    int factoryYear; // Year the car was manufactured
-    int price; // Price of the car
-
-    // Constructor to initialize a Car object
-    // Inputs: carBrand, carID, carState, carFactoryYear, carPrice
-    // Output: None
-    Car(string carBrand = "", int carID = 0, string carState = "", int carFactoryYear = 0, int carPrice = 0){
-        this->brand = carBrand;
-        this->ID = carID;
-        this->state = carState;
-        this->factoryYear = carFactoryYear;
-        this->price = carPrice;
-    }
-
-    // Function to display car details
-    // Input: title - optional title to display
-    // Output: None
-    void display(string title = ""){
-        cout << "\n---------------------------------" << endl;
-        cout << title << endl;
-        cout << "-------------\n" << endl;
-        cout << "Brand: " << brand << endl;
-        cout << "ID: " << ID << endl;
-        cout << "State: " << state << endl;
-        cout << "Factory Year: " << factoryYear << endl;
-        cout << "Price: " << price << endl;
-    }
-};
-
-vector<Car> Cars; // Vector to store all cars
 
 // Function to display cars
 // Inputs: Car_list - list of cars to display, index - specific car index to display (optional)
@@ -65,25 +17,6 @@ void DisplayCars(vector<Car>& Car_list, int index=-1){
         title = "Car " + to_string(index) + " details";
         Car_list[index].display(title);
     }
-}
-
-// Function to perform binary search on cars by ID
-// Inputs: Car_list - list of cars, low - lower bound, high - upper bound, searchID - ID to search for
-// Output: Index of the car if found, -1 otherwise
-int binarySearch(vector<Car>& Car_list, int low, int high, int searchID) {
-    while (low <= high) {
-        int mid = low + (high - low) / 2; // Middle index
-        if (searchID == Car_list[mid].ID){
-            return mid;
-        }
-        if (searchID > Car_list[mid].ID){
-            low = mid + 1;
-        }
-        if (searchID < Car_list[mid].ID){
-            high = mid - 1;
-        }
-    }
-    return -1;
 }
 
 // Function to search cars by a common string attribute
@@ -261,63 +194,6 @@ void EditCar(){
     }
 }
 
-// Function to merge two halves of a car list
-// Inputs: Car_list - list of cars, lowerB - lower bound, mid - middle index, UpperB - upper bound
-// Output: None
-void merge(vector<Car>& Car_list, int lowerB, int mid, int UpperB) {
-    int sizeLeft = mid - lowerB + 1; // Size of left half
-    int sizeRight = UpperB - mid; // Size of right half
-
-    vector<Car> leftArray(sizeLeft); // Left half array
-    vector<Car> rightArray(sizeRight); // Right half array
-
-    for (int i = 0; i < sizeLeft; ++i) {
-        leftArray[i] = Car_list[lowerB + i];
-    }
-    for (int i = 0; i < sizeRight; ++i) {
-        rightArray[i] = Car_list[mid + 1 + i];
-    }
-
-    int i = 0, j = 0, k = lowerB; // Indices for merging
-
-    while ((i < sizeLeft) && (j < sizeRight)) {
-        if (leftArray[i].ID <= rightArray[j].ID) {
-            Car_list[k] = leftArray[i];
-            ++i;
-        } else {
-            Car_list[k] = rightArray[j];
-            ++j;
-        }
-        ++k;
-    }
-
-    while (i < sizeLeft) {
-        Car_list[k] = leftArray[i];
-        ++i;
-        ++k;
-    }
-
-    while (j < sizeRight) {
-        Car_list[k] = rightArray[j];
-        ++j;
-        ++k;
-    }
-}
-
-// Function to perform merge sort on a list of cars
-// Inputs: Car_list - list of cars, lowerB - lower bound, upperB - upper bound
-// Output: None
-void mergeSort(vector<Car>& Car_list, int lowerB, int upperB){
-    if (lowerB >= upperB){
-        return;
-    }
-
-    int mid = lowerB + (upperB - lowerB) / 2; // Middle index
-    mergeSort(Car_list, lowerB, mid);
-    mergeSort(Car_list, mid + 1, upperB);
-    merge(Car_list, lowerB, mid, upperB);
-}
-
 // Function to add a new car
 // Inputs: None
 // Output: None
@@ -342,69 +218,6 @@ void AddCar(){
     cout << "Car added successfully" << endl;
 }
 
-// Function to preload cars into the system
-// Inputs: None
-// Output: None
-void PreloadCars(){
-    // Preload 4 cars
-    Car car1("Toyota", 1263, "New", 2021, 100000);
-    Car car2("BMW", 5712, "Occasion", 2019, 200000);
-    Car car3("Mercedes", 9, "New", 2023, 300000);
-    Car car4("Mercedes", 4479, "Occasion", 2021, 400000);
 
-    Cars.push_back(car1);
-    Cars.push_back(car2);
-    Cars.push_back(car3);
-    Cars.push_back(car4);
+#endif
 
-    mergeSort(Cars, 0, Cars.size() - 1);
-}
-
-int main() {
-    int option = 0; // User's menu option
-
-    PreloadCars();
-
-    while (option != 6) {
-        cout << "\n\n__________________________________________\n" << endl;
-        cout << "Menu" << endl;
-        cout << "1. Add car" << endl;
-        cout << "2. Edit car" << endl;
-        cout << "3. Delete car" << endl;
-        cout << "4. Display all cars" << endl;
-        cout << "5. Search" << endl;
-        cout << "6. Exit" << endl;
-        cout << "Choose an option :" << flush;
-
-        cin >> option;
-
-        switch (option)
-        {
-        case 1:
-            AddCar();
-            break;
-        case 2:
-            EditCar();
-            break;
-        case 3:
-            DeleteCar();
-            break;
-        case 4:
-            cout << "\n\n Displaying all cars: \n" << endl;
-            cout << "cars size: " << Cars.size() << endl;
-            DisplayCars(Cars);
-            break;
-        case 5:
-            Search();
-            break;
-        case 6:
-            break;
-        default:
-            cout << "Invalid option" << endl;
-            break;
-        }
-    }
-
-    cout << "Goodbye!" << endl;
-    return 0;
-}
