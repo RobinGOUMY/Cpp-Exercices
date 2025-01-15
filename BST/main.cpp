@@ -10,12 +10,12 @@ void PreloadCars(){
     Car car3("Mercedes", 9, "New", 2023, 300000);
     Car car4("Mercedes", 4479, "Occasion", 2021, 400000);
 
-    Cars.push_back(car1);
-    Cars.push_back(car2);
-    Cars.push_back(car3);
-    Cars.push_back(car4);
+    insertNewCar(car1);
+    insertNewCar(car2);
+    insertNewCar(car3);
+    insertNewCar(car4);
 
-    mergeSort(Cars, 0, Cars.size() - 1);
+
 }
 
 int main() {

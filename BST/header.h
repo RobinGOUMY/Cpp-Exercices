@@ -11,6 +11,7 @@
 #include <cctype>
 
 using namespace std;
+using pii = pair<int, int>;
 
 void toLowerCase(string& str) {
     transform(str.begin(), str.end(), str.begin(),::tolower);
@@ -18,7 +19,11 @@ void toLowerCase(string& str) {
 
 #include "class.h"
 vector<Car> Cars; // Vector to store all cars
-#include "binary_search.h"
+
+#include "balanceBST2.h"
+#include "binary_search_tree.h"
+
+
 #include "menus.h"
 
 

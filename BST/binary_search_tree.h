@@ -1,113 +1,113 @@
-#include <iostream>
+#ifndef BINARY_SEARCH_TREE_H
+#define BINARY_SEARCH_TREE_H
 
-using namespace std;
+#include "header.h"
 
-// Définition d'un nœud de l'arbre
-struct Node {
-    int data;          // Valeur stockée dans le nœud
-    Node* left;        // Pointeur vers le sous-arbre gauche
-    Node* right;       // Pointeur vers le sous-arbre droit
+Node* BST_brands_ROOT = NULL;
+Node* BST_states_ROOT = NULL;
+Node* BST_factoryYears_ROOT = NULL;
+Node* BST_prices_ROOT = NULL;
+Node* BST_IDs_ROOT = NULL;
 
-    // Constructeur
-    Node(int value) : data(value), left(nullptr), right(nullptr) {}
-};
+void insertBST(Node*& ROOT, pii data)
+{
+    Node* newNode = new Node;
+    newNode->data.first = data.first;
+    newNode->leftChild = NULL;
+    newNode->rightChild = NULL;
 
-// Classe pour l'arbre binaire de recherche
-class BinarySearchTree {
-private:
-    Node* root;        // Racine de l'arbre
+    Node* parent;
+    Node* current;
 
-    // Fonction récursive pour insérer un nœud
-    Node* insertNode(Node* node, int value) {
-        if (node == nullptr) {
-            return new Node(value); // Crée un nouveau nœud si l'emplacement est vide
-        }
-        if (value < node->data) {
-            node->left = insertNode(node->left, value); // Insère dans le sous-arbre gauche
-        } else if (value > node->data) {
-            node->right = insertNode(node->right, value); // Insère dans le sous-arbre droit
-        }
-        return node;
+    if(ROOT == NULL) //tree is empty
+    {
+        ROOT = newNode;
     }
+    else
+    {
+        current = ROOT;
+        parent = NULL;
+        while(true)
+        {
+            parent = current;
 
-    // Fonction récursive pour rechercher un nœud
-    bool searchNode(Node* node, int value) const {
-        if (node == nullptr) {
-            return false; // Valeur non trouvée
-        }
-        if (node->data == value) {
-            return true; // Valeur trouvée
-        } else if (value < node->data) {
-            return searchNode(node->left, value); // Recherche dans le sous-arbre gauche
-        } else {
-            return searchNode(node->right, value); // Recherche dans le sous-arbre droit
-        }
-    }
+            if(data.first < parent->data.first) // go to the left subtree
+            {
+                current = current->leftChild;
 
-    // Fonction récursive pour le parcours en ordre
-    void inOrderTraversal(Node* node) const {
-        if (node != nullptr) {
-            inOrderTraversal(node->left);   // Parcourt le sous-arbre gauche
-            cout << node->data << " ";     // Affiche la valeur du nœud
-            inOrderTraversal(node->right); // Parcourt le sous-arbre droit
-        }
-    }
+                if(current == NULL)
+                {
+                    parent->leftChild = newNode;
+                    return;
+                }
+            }
+            else    // go to the right subtree
+            {
+                current = current->rightChild;
 
-    // Fonction récursive pour libérer la mémoire
-    void deleteTree(Node* node) {
-        if (node != nullptr) {
-            deleteTree(node->left);
-            deleteTree(node->right);
-            delete node;
+                if(current == NULL)
+                {
+                    parent->rightChild = newNode;
+                    return;
+                }
+            }
         }
     }
-
-public:
-    // Constructeur
-    BinarySearchTree() : root(nullptr) {}
-
-    // Destructeur
-    ~BinarySearchTree() {
-        deleteTree(root); // Libère tous les nœuds
-    }
-
-    // Insérer une valeur dans l'arbre
-    void insert(int value) {
-        root = insertNode(root, value);
-    }
-
-    // Rechercher une valeur dans l'arbre
-    bool search(int value) const {
-        return searchNode(root, value);
-    }
-
-    // Afficher les éléments en ordre croissant
-    void inOrder() const {
-        inOrderTraversal(root);
-        cout << endl;
-    }
-};
-
-// Programme principal
-int main() {
-    BinarySearchTree bst;
-
-    // Insertion de valeurs dans l'arbre
-    bst.insert(50);
-    bst.insert(30);
-    bst.insert(70);
-    bst.insert(20);
-    bst.insert(40);
-    bst.insert(60);
-    bst.insert(80);
-
-    // Parcours en ordre
-    cout << "Parcours en ordre : ";
-    bst.inOrder();
-
-    // Recherche de valeurs
-    cout << "Recherche de 40 : " << (bst.search(40) ? "Trouvé" : "Non trouvé") << endl;
-    cout << "Recherche de 90 : " << (bst.search(90) ? "Trouvé" : "Non trouvé") << endl;
-
-    return 0;
 }
+
+// recursive function to retrieve a car by ID
+int retrieveBST(Node* ROOT, int key)
+{
+    if(ROOT != NULL)
+    {
+        cout << "exploring... " << ROOT->data.first << endl;
+        if(ROOT->data.first == key)
+        {
+            return ROOT->data.second;
+        }
+        else if(ROOT->data.first > key)
+        {
+            return retrieveBST(ROOT->leftChild, key);
+        }
+        else
+        {
+            return retrieveBST(ROOT->rightChild, key);
+        }
+    }
+    
+    return -1;
+}
+
+void preOrderTraversal(Node* root)
+{
+    if(root != NULL)
+    {
+        cout << root->data.first << endl;
+        preOrderTraversal(root->leftChild);
+        preOrderTraversal(root->rightChild);
+    }
+}
+
+void inOrderTraversal(Node* root)
+{
+    if(root != NULL)
+    {
+        inOrderTraversal(root->leftChild);
+        cout << root->data.first << endl;
+        inOrderTraversal(root->rightChild);
+    }
+}
+
+void postOrderTraversal(Node* root)
+{
+    if(root != NULL)
+    {
+        postOrderTraversal(root->leftChild);
+        postOrderTraversal(root->rightChild);
+        cout << root->data.first << endl;
+    }
+}
+
+
+
+#endif

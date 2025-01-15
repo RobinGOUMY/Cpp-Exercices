@@ -4,6 +4,7 @@
 #define CLASS_H
 
 class Car {
+    
 public:
     string brand; // Car brand
     int ID; // Car ID
@@ -34,6 +35,11 @@ public:
         cout << "State: " << state << endl;
         cout << "Factory Year: " << factoryYear << endl;
         cout << "Price: " << price << endl;
+    }
+
+    int addToCars(vector<Car>& Cars){
+        Cars.push_back(*this);
+        return Cars.size() - 1;
     }
 };
 

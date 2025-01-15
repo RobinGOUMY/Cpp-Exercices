@@ -1,29 +1,33 @@
-#include <vector>
+
+#include "header.h"
+
+#ifndef BALANCE_BST2_H
+#define BALANCE_BST2_H
 
 typedef struct node {
-    int data;
+    pii data;
     struct node* leftChild;
     struct node* rightChild; 
 } Node;
 
-void inOrderStorage(Node* root, std::vector<int>& nodeValues)
+void inOrderStorage(Node* root, vector<int>& nodeValues)
 {
     if(root != NULL)
     {
         inOrderStorage(root->leftChild, nodeValues);
-        nodeValues.push_back(root->data);
+        nodeValues.push_back(root->data.first);
         inOrderStorage(root->rightChild, nodeValues);
     }
 }
 
-void sortedArrayToBalancedBST(Node*& root, std::vector<int>& nodeValues, int start, int end)
+void sortedArrayToBalancedBST(Node*& root, vector<int>& nodeValues, int start, int end)
 {
     if(start > end)
         return;
 
     int median = (start + end)/2;
     Node* newNode = new Node;
-    newNode->data = nodeValues[median];
+    newNode->data.first = nodeValues[median];
     newNode->leftChild = NULL;
     newNode->rightChild = NULL;
 
@@ -35,9 +39,11 @@ void sortedArrayToBalancedBST(Node*& root, std::vector<int>& nodeValues, int sta
 
 void balanceBST(Node* root)
 {
-    std::vector<int> nodeValuesInOrder;
+    vector<int> nodeValuesInOrder;
 
     inOrderStorage(root, nodeValuesInOrder);
 
     sortedArrayToBalancedBST(root, nodeValuesInOrder, 0, nodeValuesInOrder.size() - 1);
 }
+
+#endif

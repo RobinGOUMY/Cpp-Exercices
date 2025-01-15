@@ -67,7 +67,7 @@ void SearchByID() {
     cout << "Enter the ID to search for: " << flush;
     cin >> searchValue;
 
-    int CarIndex = binarySearch(Cars, 0, Cars.size() - 1, searchValue);
+    int CarIndex = retrieveBST(BST_IDs_ROOT, searchValue);
 
     if (CarIndex == -1){
         cout << "\nCar not found" << endl;
@@ -125,7 +125,7 @@ void DeleteCar(){
     cout << "Enter the ID of the car to delete: " << flush;
     cin >> searchValue;
 
-    int CarIndex = binarySearch(Cars, 0, Cars.size() - 1, searchValue);
+    int CarIndex = 0;
 
     if (CarIndex == -1){
         cout << "\nCar not found" << endl;
@@ -144,7 +144,7 @@ void EditCar(){
     cout << "Enter the ID of the car to edit: " << flush;
     cin >> searchValue;
 
-    int CarIndex = binarySearch(Cars, 0, Cars.size() - 1, searchValue);
+    int CarIndex = 0; 
 
     if (CarIndex == -1){
         cout << "\nCar not found\n" << endl;
@@ -194,30 +194,42 @@ void EditCar(){
     }
 }
 
+void insertNewCar(Car& temp_car){
+
+    int car_index = temp_car.addToCars(Cars);
+
+    pii ID_data = make_pair(Cars[car_index].ID, car_index);
+    insertBST(BST_IDs_ROOT, ID_data);
+
+}
+
+
 // Function to add a new car
 // Inputs: None
 // Output: None
 void AddCar(){
-    Car temp_car; // Temporary car object
+    
+    Car temp_car; // Temporary car object to store new car details
 
     cout << "Add car's brand" << endl;
     cin >> temp_car.brand;
+
     cout << "Add car's ID" << endl;
     cin >> temp_car.ID;
+
     cout << "Add car's state" << endl;
     cin >> temp_car.state;
+
     cout << "Add car's factory year" << endl;
     cin >> temp_car.factoryYear;
+
     cout << "Add car's price" << endl;
     cin >> temp_car.price;
 
-    Cars.push_back(temp_car);
-
-    mergeSort(Cars, 0, Cars.size() - 1);
+    insertNewCar(temp_car);
 
     cout << "Car added successfully" << endl;
 }
-
 
 #endif
 
