@@ -77,6 +77,20 @@ int retrieveBST(Node*& ROOT, int key)
     return -1;
 }
 
+// display the BST like the tree command for displaying a file architecture
+void displayBST(Node* root, int layer = 0)
+{
+    if(root != NULL)
+    {
+        displayBST(root->rightChild, layer + 1);
+        for(int i = 0; i < layer; i++)
+        {
+            cout << "    ";
+        }
+        cout << root->data.first << endl;
+        displayBST(root->leftChild, layer + 1);
+    }
+}
 
 
 

@@ -230,5 +230,17 @@ void AddCar(){
     cout << "Car added successfully" << endl;
 }
 
+void balance() {
+    //balanceBST(BST_brands_ROOT);
+    //balanceBST(BST_states_ROOT);
+    //balanceBST(BST_factoryYears_ROOT);
+    //balanceBST(BST_prices_ROOT);
+    cout << " Before : " << endl;
+    displayBST(BST_IDs_ROOT);
+    balanceBST(BST_IDs_ROOT);
+    cout << " After : " << endl;
+    displayBST(BST_IDs_ROOT);
+}
+
 #endif
 

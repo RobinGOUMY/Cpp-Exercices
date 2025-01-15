@@ -10,7 +10,7 @@ typedef struct node {
     struct node* rightChild; 
 } Node;
 
-void inOrderStorage(Node* root, vector<int>& nodeValues)
+void inOrderStorage(Node*& root, vector<int>& nodeValues)
 {
     if(root != NULL)
     {
@@ -37,7 +37,7 @@ void sortedArrayToBalancedBST(Node*& root, vector<int>& nodeValues, int start, i
     sortedArrayToBalancedBST(newNode->rightChild, nodeValues, median + 1, end);
 }
 
-void balanceBST(Node* root)
+void balanceBST(Node*& root)
 {
     vector<int> nodeValuesInOrder;
 
