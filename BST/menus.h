@@ -197,7 +197,6 @@ void EditCar(){
 void insertNewCar(Car& temp_car){
 
     int car_index = temp_car.addToCars(Cars);
-
     pii ID_data = make_pair(Cars[car_index].ID, car_index);
     insertBST(BST_IDs_ROOT, ID_data);
 

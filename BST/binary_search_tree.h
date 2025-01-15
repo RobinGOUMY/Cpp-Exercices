@@ -12,7 +12,7 @@ Node* BST_IDs_ROOT = NULL;
 void insertBST(Node*& ROOT, pii data)
 {
     Node* newNode = new Node;
-    newNode->data.first = data.first;
+    newNode->data = data;
     newNode->leftChild = NULL;
     newNode->rightChild = NULL;
 
@@ -56,11 +56,10 @@ void insertBST(Node*& ROOT, pii data)
 }
 
 // recursive function to retrieve a car by ID
-int retrieveBST(Node* ROOT, int key)
+int retrieveBST(Node*& ROOT, int key)
 {
     if(ROOT != NULL)
     {
-        cout << "exploring... " << ROOT->data.first << endl;
         if(ROOT->data.first == key)
         {
             return ROOT->data.second;
@@ -78,35 +77,6 @@ int retrieveBST(Node* ROOT, int key)
     return -1;
 }
 
-void preOrderTraversal(Node* root)
-{
-    if(root != NULL)
-    {
-        cout << root->data.first << endl;
-        preOrderTraversal(root->leftChild);
-        preOrderTraversal(root->rightChild);
-    }
-}
-
-void inOrderTraversal(Node* root)
-{
-    if(root != NULL)
-    {
-        inOrderTraversal(root->leftChild);
-        cout << root->data.first << endl;
-        inOrderTraversal(root->rightChild);
-    }
-}
-
-void postOrderTraversal(Node* root)
-{
-    if(root != NULL)
-    {
-        postOrderTraversal(root->leftChild);
-        postOrderTraversal(root->rightChild);
-        cout << root->data.first << endl;
-    }
-}
 
 
 
