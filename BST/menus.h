@@ -1,6 +1,12 @@
-#include "header.h"
+
 #ifndef MENUS_H 
 #define MENUS_H
+
+#include "header.h"
+
+void toLowerCase(string& str) {
+    transform(str.begin(), str.end(), str.begin(),::tolower);
+}
 
 
 // Function to display cars

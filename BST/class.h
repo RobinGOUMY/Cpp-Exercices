@@ -1,7 +1,7 @@
-
-#include "header.h"
 #ifndef CLASS_H
 #define CLASS_H
+
+#include "header.h"
 
 class Car {
     
@@ -42,5 +42,8 @@ public:
         return Cars.size() - 1;
     }
 };
+
+vector<Car> Cars; // Vector to store all cars
+
 
 #endif

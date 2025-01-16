@@ -1,8 +1,9 @@
+#ifndef BALANCE_BST2_H
+#define BALANCE_BST2_H
 
 #include "header.h"
 
-#ifndef BALANCE_BST2_H
-#define BALANCE_BST2_H
+using pii = pair<int, int>;
 
 typedef struct node {
     pii data;
